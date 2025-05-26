@@ -25,23 +25,23 @@ scr.onkeypress(l_paddle.go_down, "s")
 game_is_on = True
 while game_is_on:
     scr.update()
-    time.sleep(0.1)
+    time.sleep(ball.ball_speed)
     ball.move()
     if ball.detect_wall_collision():
-        ball.y *= -1
+        ball.bounce_y()
 
-    if (
-            (ball.distance(r_paddle) < 50 and ball.xcor() > 320) or
-            (ball.distance(l_paddle) and ball.xcor() < -320)
-    ): ball.x *= -1
+    if ball.detect_paddle_collision(r_paddle, l_paddle):
+        ball.bounce_x()
+        ball.move()
+        ball.ball_speed *= 0.9
 
     if ball.xcor() > 380:
-        score.update_scoreboard()
+        score.r_point()
         ball.reset_position()
 
 
     if ball.xcor() < -380:
-        score.update_scoreboard()
+        score.l_point()
         ball.reset_position()
 
 
